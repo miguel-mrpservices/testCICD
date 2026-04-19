@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "moneybucket" {
-  bucket = "moneybucketmiguel"
+resource "aws_s3_bucket" "testcicdbucket" {
+  bucket = "testcicd-bucket-miguel"
 
 }
