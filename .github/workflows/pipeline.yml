@@ -5,11 +5,10 @@ on:
     branches: [ main ]
 
 jobs:
-  tf-plan:
-    name: build-plan
+  tf-deploy:
+    name: build-and-deploy
     runs-on: ubuntu-latest
     
-    # Inject AWS credentials for provider auth
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -22,10 +21,11 @@ jobs:
       - name: setup-tf-cli
         uses: hashicorp/setup-terraform@v3
 
-      # Initialize backend and fetch providers
       - name: tf-init
         run: terraform init
 
-      # Generate execution plan for review
       - name: tf-plan
         run: terraform plan
+
+      - name: tf-apply
+        run: terraform apply -auto-approve
