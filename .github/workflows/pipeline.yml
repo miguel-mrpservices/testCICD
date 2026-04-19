@@ -1,0 +1,19 @@
+name: "Mi Primera Pipeline"  # Nombre del robot (para que lo reconozcas)
+
+on:                           # ¿CUÁNDO se despierta el robot?
+  push:                       # Cuando empujo código...
+    branches: [ main ]        # ...a la carpeta principal (main).
+
+jobs:                         # ¿QUÉ tiene que hacer? (La lista de tareas)
+  check-mi-codigo:            # Tarea 1: "Revisar mi código"
+    runs-on: ubuntu-latest    # Robot, usa un ordenador con Linux (Ubuntu).
+
+    steps:                    # Pasos detallados de la tarea:
+      - name: Descargar código
+        uses: actions/checkout@v4  # Paso 1: Copia mis archivos de Terraform en tu memoria.
+
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v3 # Paso 2: Instala las herramientas de Terraform.
+
+      - name: Verificar formato
+        run: terraform fmt -check  # Paso 3: Ejecuta este comando para ver si mi código está ordenado.
