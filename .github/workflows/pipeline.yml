@@ -1,19 +1,25 @@
-name: "Mi Primera Pipeline"  # Nombre del robot (para que lo reconozcas)
+name: "Terraform CI"
 
-on:                           # ¿CUÁNDO se despierta el robot?
-  push:                       # Cuando empujo código...
-    branches: [ main ]        # ...a la carpeta principal (main).
+# Trigger the workflow on push events to the main branch
+on:
+  push:
+    branches: [ main ]
 
-jobs:                         # ¿QUÉ tiene que hacer? (La lista de tareas)
-  check-mi-codigo:            # Tarea 1: "Revisar mi código"
-    runs-on: ubuntu-latest    # Robot, usa un ordenador con Linux (Ubuntu).
+jobs:
+  # Job to validate and lint Terraform code
+  terraform-lint:
+    name: "Linting and Formatting"
+    runs-on: ubuntu-latest
 
-    steps:                    # Pasos detallados de la tarea:
-      - name: Descargar código
-        uses: actions/checkout@v4  # Paso 1: Copia mis archivos de Terraform en tu memoria.
+    steps:
+      # Step 1: Checkout the repository code onto the runner
+      - name: "Checkout Code"
+        uses: actions/checkout@v4
 
-      - name: Instalar Terraform
-        uses: hashicorp/setup-terraform@v3 # Paso 2: Instala las herramientas de Terraform.
+      # Step 2: Set up the HashiCorp Terraform CLI
+      - name: "Setup Terraform"
+        uses: hashicorp/setup-terraform@v3
 
-      - name: Verificar formato
-        run: terraform fmt -check  # Paso 3: Ejecuta este comando para ver si mi código está ordenado.
+      # Step 3: Check that all Terraform configuration files adhere to a canonical format
+      - name: "Check Format"
+        run: terraform fmt -check
