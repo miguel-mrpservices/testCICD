@@ -1,25 +1,31 @@
-name: "Terraform CI"
+name: infra-workflow
 
-# Trigger the workflow on push events to the main branch
 on:
   push:
     branches: [ main ]
 
 jobs:
-  # Job to validate and lint Terraform code
-  terraform-lint:
-    name: "Linting and Formatting"
+  tf-plan:
+    name: build-plan
     runs-on: ubuntu-latest
+    
+    # Inject AWS credentials for provider auth
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: "eu-central-1" 
 
     steps:
-      # Step 1: Checkout the repository code onto the runner
-      - name: "Checkout Code"
+      - name: checkout-repo
         uses: actions/checkout@v4
 
-      # Step 2: Set up the HashiCorp Terraform CLI
-      - name: "Setup Terraform"
+      - name: setup-tf-cli
         uses: hashicorp/setup-terraform@v3
 
-      # Step 3: Check that all Terraform configuration files adhere to a canonical format
-      - name: "Check Format"
-        run: terraform fmt -check
+      # Initialize backend and fetch providers
+      - name: tf-init
+        run: terraform init
+
+      # Generate execution plan for review
+      - name: tf-plan
+        run: terraform plan
