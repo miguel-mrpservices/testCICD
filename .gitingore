@@ -1,0 +1,43 @@
+# --- TERRAFORM ---
+# Local .terraform directory
+.terraform/
+
+# TERRAFORM STATE FILES
+*.tfstate
+*.tfstate.*
+
+# Local variables and overrides
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+
+# --- SECRETS AND CONFIGURATION ---
+# Environment variables and local credentials
+.env
+.env.local
+.aws/
+credentials
+secrets.xml
+
+# --- OPERATING SYSTEM SPECIFIC FILES ---
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+
+# --- IDE AND EDITORS ---
+# Visual Studio Code, IntelliJ, etc.
+.vscode/
+.idea/
+*.swp
+*.bak
+
+# --- LOG FILES ---
+# System and application logs
+*.log
+npm-debug.log*
